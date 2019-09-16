@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<lint>
+    <!--&lt;!&ndash;配置所有Issue的默认优先级-->
+    <issue id="all" severity="warning"/>
+    <!--配置指定Issue的优先级-->
+    <issue id="ShowToast" severity="error"/>-->
+</lint>

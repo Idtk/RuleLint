@@ -1,0 +1,26 @@
+apply plugin: 'java-library'
+
+dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation 'com.android.tools.lint:lint:26.5.0'
+    implementation 'com.android.tools.lint:lint-api:26.5.0'
+    implementation 'com.android.tools.lint:lint-checks:26.5.0'
+}
+
+jar {
+    manifest {
+        attributes("Lint-Registry-v2":"com.idtk.lintlib.MyIssueRegister")
+    }
+}
+
+configurations {
+    lintChecks
+}
+
+dependencies {
+    lintChecks files(jar)
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
