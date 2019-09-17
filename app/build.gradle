@@ -23,17 +23,18 @@ android {
     }
 
     lintOptions {
-        abortOnError false
+        abortOnError true
+    }
+
+    // 配置assemble任务依赖lint，编译时就会执行Lint检查
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def lintTask = tasks["lint${variant.name.capitalize()}"]
+            output.assemble.dependsOn lintTask
+        }
     }
 }
 
-// 配置assemble任务依赖lint，编译时就会执行Lint检查
-android.applicationVariants.all { variant ->
-    variant.outputs.each { output ->
-        def lintTask = tasks["lint${variant.name.capitalize()}"]
-        output.assemble.dependsOn lintTask
-    }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
