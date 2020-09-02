@@ -24,15 +24,29 @@ public class ABean implements Serializable{
         this.list = list;
     }
 
-    public static class BBean{
-        private String number;
+    public static class BBean implements Serializable{
+        private CBean c;
 
-        public String getNumber() {
-            return number;
+        public CBean getC() {
+            return c;
         }
 
-        public void setNumber(String number) {
-            this.number = number;
+        public void setC(CBean c) {
+            this.c = c;
+        }
+
+        public static class CBean implements Serializable{
+            private int number;
+
+            public int getNumber() {
+                return number;
+            }
+
+            public void setNumber(int number) {
+                this.number = number;
+            }
+
+
         }
     }
 }

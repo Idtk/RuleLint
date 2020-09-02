@@ -1,6 +1,5 @@
 package com.idtk.lintlib;
 
-import com.android.tools.lint.detector.api.AnnotationUsageType;
 import com.android.tools.lint.detector.api.Category;
 import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Implementation;
@@ -8,14 +7,11 @@ import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.uast.UAnnotation;
 import org.jetbrains.uast.UCallExpression;
-import org.jetbrains.uast.UElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +27,7 @@ public class LogDetector extends Detector implements Detector.UastScanner{
             "避免在项目中直接使用android.log以及system.out",
             Category.SECURITY,
             5, /*1-10*/
-            Severity.ERROR,
+            Severity.WARNING,
             new Implementation(LogDetector.class, Scope.JAVA_FILE_SCOPE));
 
     @Nullable
@@ -43,18 +39,12 @@ public class LogDetector extends Detector implements Detector.UastScanner{
     @Override
     public void visitMethod(@NotNull JavaContext context, @NotNull UCallExpression node, @NotNull PsiMethod method) {
         if (context.getEvaluator().isMemberInClass(method, "android.util.Log") || context.getEvaluator().isMemberInClass(method, "java.io.PrintStream")) {
+            /*PsiMethod[] classes = context.getCallLocation(node,true,true);
+            for (PsiMethod uClass:classes){
+                System.out.println("test1111"+uClass);
+            }*/
+            System.out.println("test1111: "+context.getCallLocation(node,true,true));
             context.report(ISSUE, node, context.getLocation(node), "应该使用项目中的Log工具!");
         }
-    }
-
-    @Nullable
-    @Override
-    public List<String> applicableAnnotations() {
-        return super.applicableAnnotations();
-    }
-
-    @Override
-    public void visitAnnotationUsage(@NotNull JavaContext context, @NotNull UElement usage, @NotNull AnnotationUsageType type, @NotNull UAnnotation annotation, @NotNull String qualifiedName, @Nullable PsiMethod method, @Nullable PsiElement referenced, @NotNull List<? extends UAnnotation> annotations, @NotNull List<? extends UAnnotation> allMemberAnnotations, @NotNull List<? extends UAnnotation> allClassAnnotations, @NotNull List<? extends UAnnotation> allPackageAnnotations) {
-        super.visitAnnotationUsage(context, usage, type, annotation, qualifiedName, method, referenced, annotations, allMemberAnnotations, allClassAnnotations, allPackageAnnotations);
     }
 }
