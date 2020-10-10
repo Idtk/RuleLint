@@ -19,7 +19,7 @@ public class MyIssueRegister extends IssueRegistry {
         issues.add(LateinitWarnDetector.LATEINIT_WARN);
 //        issues.add(LogDetector.ISSUE);
         issues.add(SerializableDetector.INNER_FIELD_SERIALIZABLE);
-        issues.add(NonNullDetector.NON_NULL);
+        issues.add(NullSafeDetector.NULL_SAFE);
         sIssues = Collections.unmodifiableList(issues);
     }
 
